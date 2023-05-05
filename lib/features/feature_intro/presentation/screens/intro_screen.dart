@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:news_reader/common/utils/pref_opreator.dart';
+import 'package:news_reader/features/feature_home/presentation/screens/home_screen.dart';
 import 'package:news_reader/gen/assets.gen.dart';
+import 'package:news_reader/locator.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class IntroScreen extends StatefulWidget {
@@ -126,15 +129,22 @@ class _IntroScreenState extends State<IntroScreen> {
                             )
                           : Text(''),
                       ElevatedButton(
-                        onPressed: () {
-                          setState(() {
-                            if (current_index < 2) {
+                        onPressed: () async {
+                          if (current_index < 2) {
+                            setState(() {
                               current_index++;
                               _controller.animateToPage(current_index,
                                   duration: Duration(milliseconds: 500),
                                   curve: Curves.ease);
-                            }
-                          });
+                            });
+                          } else {
+                            // changes the value to true to shown that use had seen the
+                            //sliders then we navigate to home screen
+                            locator<PrefOperator>().changeIntroState(true);
+                            // navigate to homeScreen!
+                            Navigator.of(context)
+                                .pushReplacementNamed(HomeScreen.routeName);
+                          }
                         },
                         child: Text(current_index < 2 ? 'Next' : 'Continue'),
                       ),
