@@ -12,9 +12,9 @@ class NewsModelSourceModel extends Equatable {
   const NewsModelSourceModel({this.name});
 
   factory NewsModelSourceModel.fromJson(Map<String, dynamic> json) =>
-      _$HeadLineNewsSourceModelFromJson(json);
+      _$NewsModelSourceModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$HeadLineNewsSourceModelToJson(this);
+  Map<String, dynamic> toJson() => _$NewsModelSourceModelToJson(this);
 
   @override
   List<Object?> get props => [name];
@@ -43,9 +43,9 @@ class NewsModel extends Equatable {
       this.source});
 
   factory NewsModel.fromJson(Map<String, dynamic> json) =>
-      _$HeadLineNewsModelFromJson(json);
+      _$NewsModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$HeadLineNewsModelToJson(this);
+  Map<String, dynamic> toJson() => _$NewsModelToJson(this);
 
   @override
   String toString() => 'TopHeadLineNews(title:$title,content:$content)';
