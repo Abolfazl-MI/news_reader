@@ -3,6 +3,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:news_reader/common/utils/pref_opreator.dart';
 import 'package:news_reader/features/feature_home/presentation/screens/home_screen.dart';
+import 'package:news_reader/features/feature_select_topic/presentation/screens/select_topic_screen.dart';
 import 'package:news_reader/gen/assets.gen.dart';
 import 'package:news_reader/locator.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -139,11 +140,19 @@ class _IntroScreenState extends State<IntroScreen> {
                             });
                           } else {
                             // changes the value to true to shown that use had seen the
-                            //sliders then we navigate to home screen
+                            //sliders then check if user had selected topics or not!
                             locator<PrefOperator>().changeIntroState(true);
-                            // navigate to homeScreen!
-                            Navigator.of(context)
-                                .pushReplacementNamed(HomeScreen.routeName);
+                            // if topics where null then we navigate to select topic page
+                            // else we navigate to home
+                            List<String>? topics =
+                                await locator<PrefOperator>().getUserTopics();
+                            if (topics == null) {
+                              Navigator.pushReplacementNamed(
+                                  context, SelectTopicScreen.routeName);
+                            } else {
+                              Navigator.pushReplacementNamed(
+                                  context, HomeScreen.routeName);
+                            }
                           }
                         },
                         child: Text(current_index < 2 ? 'Next' : 'Continue'),
