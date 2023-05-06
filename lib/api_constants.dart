@@ -6,4 +6,5 @@ class ApiUrls {
   ApiUrls._();
   static const String baseUrl = 'https://newsapi.org/v2';
   static const String topHeadLineNews = '/top-headlines';
+  static const String getTopicNews = '/everything';
 }
