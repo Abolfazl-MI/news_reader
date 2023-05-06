@@ -10,11 +10,7 @@ GetIt locator = GetIt.instance;
 
 Future<void> initLocator() async {
   /// networking lib
-  locator.registerSingleton<Dio>(Dio(BaseOptions(
-    baseUrl: ApiUrls.baseUrl, 
-    contentType: 'application/json', 
-    
-  )));
+  locator.registerSingleton<Dio>(Dio());
 
   ///SharedPreferences
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -23,6 +19,4 @@ Future<void> initLocator() async {
 
   /// splash repository
   locator.registerSingleton<SplashRepository>(SplashRepository());
-
-  
 }
