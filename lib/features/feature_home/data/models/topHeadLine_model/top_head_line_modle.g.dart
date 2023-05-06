@@ -6,20 +6,19 @@ part of 'top_head_line_modle.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-HeadLineNewsSourceModel _$HeadLineNewsSourceModelFromJson(
+NewsModelSourceModel _$NewsModelSourceModelFromJson(
         Map<String, dynamic> json) =>
-    HeadLineNewsSourceModel(
+    NewsModelSourceModel(
       name: json['name'] as String?,
     );
 
-Map<String, dynamic> _$HeadLineNewsSourceModelToJson(
-        HeadLineNewsSourceModel instance) =>
+Map<String, dynamic> _$NewsModelSourceModelToJson(
+        NewsModelSourceModel instance) =>
     <String, dynamic>{
       'name': instance.name,
     };
 
-HeadLineNewsModel _$HeadLineNewsModelFromJson(Map<String, dynamic> json) =>
-    HeadLineNewsModel(
+NewsModel _$NewsModelFromJson(Map<String, dynamic> json) => NewsModel(
       author: json['author'] as String?,
       title: json['title'] as String?,
       description: json['description'] as String?,
@@ -28,12 +27,11 @@ HeadLineNewsModel _$HeadLineNewsModelFromJson(Map<String, dynamic> json) =>
       content: json['content'] as String?,
       source: json['source'] == null
           ? null
-          : HeadLineNewsSourceModel.fromJson(
+          : NewsModelSourceModel.fromJson(
               json['source'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$HeadLineNewsModelToJson(HeadLineNewsModel instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$NewsModelToJson(NewsModel instance) => <String, dynamic>{
       'author': instance.author,
       'title': instance.title,
       'description': instance.description,

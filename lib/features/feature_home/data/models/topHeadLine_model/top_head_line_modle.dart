@@ -6,12 +6,12 @@ part 'top_head_line_modle.g.dart';
 
 @JsonSerializable()
 @immutable
-class HeadLineNewsSourceModel extends Equatable {
+class NewsModelSourceModel extends Equatable {
   final String? name;
 
-  const HeadLineNewsSourceModel({this.name});
+  const NewsModelSourceModel({this.name});
 
-  factory HeadLineNewsSourceModel.fromJson(Map<String, dynamic> json) =>
+  factory NewsModelSourceModel.fromJson(Map<String, dynamic> json) =>
       _$HeadLineNewsSourceModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$HeadLineNewsSourceModelToJson(this);
@@ -24,7 +24,7 @@ class HeadLineNewsSourceModel extends Equatable {
 
 @JsonSerializable()
 @immutable
-class HeadLineNewsModel extends Equatable {
+class NewsModel extends Equatable {
   final String? author;
   final String? title;
   final String? description;
@@ -32,8 +32,8 @@ class HeadLineNewsModel extends Equatable {
   final String? publishedAt;
   final String? content;
   @JsonKey(name: 'source')
-  final HeadLineNewsSourceModel? source;
-  const HeadLineNewsModel(
+  final NewsModelSourceModel? source;
+  const NewsModel(
       {this.author,
       this.title,
       this.description,
@@ -42,7 +42,7 @@ class HeadLineNewsModel extends Equatable {
       this.content,
       this.source});
 
-  factory HeadLineNewsModel.fromJson(Map<String, dynamic> json) =>
+  factory NewsModel.fromJson(Map<String, dynamic> json) =>
       _$HeadLineNewsModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$HeadLineNewsModelToJson(this);
