@@ -3,10 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:flutter/foundation.dart';
 import 'package:news_reader/common/utils/pref_opreator.dart';
-import 'package:news_reader/features/feature_intro/presentation/bloc/splash_cubit/intro_state.dart';
+import 'package:news_reader/features/feature_intro/presentation/bloc/states/intro_state.dart';
 import 'package:news_reader/features/feature_intro/repositories/spalsh_repository.dart';
 part 'splash_state.dart';
-part 'connection_status.dart';
+part '../states/connection_status.dart';
 
 class SplashCubit extends Cubit<SplashState> {
   final SplashRepository _splashRepository;

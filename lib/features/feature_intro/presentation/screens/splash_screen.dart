@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:news_reader/config/strings.dart';
 import 'package:news_reader/features/feature_home/presentation/screens/home_screen.dart';
-import 'package:news_reader/features/feature_intro/presentation/bloc/splash_cubit/intro_state.dart';
+import 'package:news_reader/features/feature_intro/presentation/bloc/states/intro_state.dart';
 import 'package:news_reader/features/feature_intro/presentation/bloc/splash_cubit/splash_cubit.dart';
 import 'package:news_reader/features/feature_intro/presentation/screens/intro_screen.dart';
 import 'package:news_reader/gen/assets.gen.dart';

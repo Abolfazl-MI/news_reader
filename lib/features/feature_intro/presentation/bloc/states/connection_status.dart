@@ -1,5 +1,5 @@
 
-part of 'splash_cubit.dart';
+part of '../splash_cubit/splash_cubit.dart';
 @immutable
 abstract class ConnectionStatus {}
 
