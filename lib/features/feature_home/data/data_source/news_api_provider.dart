@@ -10,7 +10,7 @@ class NewsApiProvider {
 
   Future<dynamic> getTopHeadLines() async {
     final response = await _dio.get(
-      ApiUrls.topHeadLineNews,
+      '${ApiUrls.baseUrl}${ApiUrls.topHeadLineNews}',
       queryParameters: {
         'country': 'us',
         'apiKey': apiKey,
@@ -19,6 +19,23 @@ class NewsApiProvider {
       (DioError error, stackTrace) => CheckExceptions.response(error.response!),
     );
     log(response.toString());
+    return response;
+  }
+
+  Future<dynamic> getNewsByTopic(String topic) async {
+    final response =
+        _dio.get('${ApiUrls.baseUrl}${ApiUrls.getTopicNews}', queryParameters: {
+      'q': topic,
+      'sortBy': 'popularity',
+      'pageSize': 10,
+      'sortBy': 'relevancy',
+      'apiKey': apiKey,
+    }).onError(
+      (DioError error, stackTrace) => CheckExceptions.response(
+        error.response!,
+      ),
+    );
+      log(response.toString());
     return response;
   }
 }
