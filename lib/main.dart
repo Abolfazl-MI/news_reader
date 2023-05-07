@@ -6,6 +6,7 @@ import 'package:news_reader/features/feature_intro/presentation/bloc/splash_cubi
 import 'package:news_reader/features/feature_intro/presentation/screens/intro_screen.dart';
 import 'package:news_reader/features/feature_intro/presentation/screens/splash_screen.dart';
 import 'package:news_reader/features/feature_intro/repositories/spalsh_repository.dart';
+import 'package:news_reader/features/feature_select_topic/presentation/screens/select_topic_screen.dart';
 import 'package:news_reader/locator.dart';
 
 Future<void> main() async {
@@ -35,7 +36,8 @@ class MyApp extends StatelessWidget {
               child: const SplashScreen(),
             ),
         IntroScreen.routeName: (context) => const IntroScreen(),
-        HomeScreen.routeName: (context) => const HomeScreen()
+        HomeScreen.routeName: (context) => const HomeScreen(), 
+        SelectTopicScreen.routeName:(context)=>const SelectTopicScreen()
       },
     );
   }
