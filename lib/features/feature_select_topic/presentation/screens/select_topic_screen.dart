@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:news_reader/common/utils/pref_opreator.dart';
 import 'package:news_reader/config/app_topic_constants.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:news_reader/features/feature_home/presentation/screens/home_screen.dart';
 import 'package:news_reader/locator.dart';
 
