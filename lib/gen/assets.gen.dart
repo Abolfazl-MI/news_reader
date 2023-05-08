@@ -15,8 +15,11 @@ class $AssetsIconsGen {
   /// File path: assets/icons/logo.svg
   String get logo => 'assets/icons/logo.svg';
 
+  /// File path: assets/icons/logo2.svg
+  String get logo2 => 'assets/icons/logo2.svg';
+
   /// List of all assets
-  List<String> get values => [logo];
+  List<String> get values => [logo, logo2];
 }
 
 class $AssetsImageGen {
