@@ -216,15 +216,15 @@ class _HomeScreenState extends State<HomeScreen>
                                           children: _categories
                                               .map((e) => ListView.builder(
                                                     physics:
-                                                        BouncingScrollPhysics(),
+                                                        ClampingScrollPhysics(),
                                                     padding: EdgeInsets.zero,
                                                     itemCount: 20,
                                                     itemBuilder:
                                                         ((context, index) {
                                                       return Padding(
                                                         padding:
-                                                            const EdgeInsets.all(
-                                                                8.0),
+                                                            const EdgeInsets
+                                                                .all(8.0),
                                                         child: Row(
                                                           children: [
                                                             CachedImage(
@@ -245,8 +245,7 @@ class _HomeScreenState extends State<HomeScreen>
                                                                   ),
                                                                   Padding(
                                                                     padding:
-                                                                        const EdgeInsets
-                                                                                .all(
+                                                                        const EdgeInsets.all(
                                                                             8.0),
                                                                     child: Row(
                                                                       mainAxisAlignment:
@@ -258,14 +257,11 @@ class _HomeScreenState extends State<HomeScreen>
                                                                         Row(
                                                                           // mainAxisAlignment:
                                                                           children: [
-                                                                            Icon(CupertinoIcons
-                                                                                .clock),
+                                                                            Icon(CupertinoIcons.clock),
                                                                             SizedBox(
-                                                                              width:
-                                                                                  5,
+                                                                              width: 5,
                                                                             ),
-                                                                            Text(
-                                                                                '4h ago'),
+                                                                            Text('4h ago'),
                                                                           ],
                                                                         ),
                                                                       ],
