@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
-import 'package:news_reader/api_constants.dart';
+import 'package:news_reader/config/api_constants.dart';
 import 'package:news_reader/common/error_handling/check_exceptions.dart';
 
 class NewsApiProvider {

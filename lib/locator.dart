@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
-import 'package:news_reader/api_constants.dart';
+import 'package:news_reader/config/api_constants.dart';
 import 'package:news_reader/common/utils/pref_opreator.dart';
 import 'package:news_reader/features/feature_home/data/data_source/news_api_provider.dart';
 import 'package:news_reader/features/feature_home/repositories/home_repository.dart';
