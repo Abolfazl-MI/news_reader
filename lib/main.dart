@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_reader/common/bloc/navigation_cubit/navigation_cubit.dart';
 import 'package:news_reader/common/screens/main_screen.dart';
 import 'package:news_reader/common/utils/pref_opreator.dart';
 import 'package:news_reader/features/feature_home/presentation/screens/home_screen.dart';
@@ -39,7 +40,10 @@ class MyApp extends StatelessWidget {
         IntroScreen.routeName: (context) => const IntroScreen(),
         // HomeScreen.routeName: (context) => const HomeScreen(),
         SelectTopicScreen.routeName: (context) => const SelectTopicScreen(),
-        MainScreen.routeName: (context) =>  MainScreen()
+        MainScreen.routeName: (context) => BlocProvider(
+              create: (context) => NavigationCubit(),
+              child: MainScreen(),
+            )
       },
     );
   }
