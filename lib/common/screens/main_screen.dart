@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:news_reader/common/widgets/bottom_navigation_widget.dart';
+import 'package:news_reader/common/widgets/navigator_widget.dart';
 import 'package:news_reader/features/feature_bookmark/presentation/screens/book_mark_screen.dart';
 import 'package:news_reader/features/feature_explore/presentaion/screens/explore_scree.dart';
 import 'package:news_reader/features/feature_home/presentation/screens/home_screen.dart';
@@ -14,9 +15,31 @@ class BottomNavIndex {
   static const int settingIndex = 3;
 }
 
-class MainScreen extends StatelessWidget {
+class MainScreen extends StatefulWidget {
   static const String routeName = '/main_screen';
-  const MainScreen({super.key});
+
+  MainScreen({super.key});
+
+  @override
+  State<MainScreen> createState() => _MainScreenState();
+}
+
+class _MainScreenState extends State<MainScreen> {
+  /// navigation keys !
+  final GlobalKey<NavigatorState> _homeKey = GlobalKey();
+  final GlobalKey<NavigatorState> _exploreKey = GlobalKey();
+  final GlobalKey<NavigatorState> _bookMarkKey = GlobalKey();
+  final GlobalKey<NavigatorState> _settingsKey = GlobalKey();
+
+  /// navigation key mapper in order to have better selection of key and less boiler plate
+  /// with the `selected index` which is from cubit we will access the `current state` of each key then
+  /// we could perform for navigation staff
+  late final navigationMapper = {
+    BottomNavIndex.homeIndex: _homeKey,
+    BottomNavIndex.exploreIndex: _exploreKey,
+    BottomNavIndex.bookMarkIndex: _bookMarkKey,
+    BottomNavIndex.settingIndex: _settingsKey
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -52,11 +75,23 @@ class MainScreen extends StatelessWidget {
       ),
       body: IndexedStack(
         index: BottomNavIndex.homeIndex,
-        children: const [
-          HomeScreen(), 
-          ExploreScreen(), 
-          BookMarkScreen(), 
-          SettingScreen()
+        children: [
+          NavigatorWidget(
+            navigatorKey: _homeKey,
+            screen: const HomeScreen(),
+          ),
+          NavigatorWidget(
+            navigatorKey: _exploreKey,
+            screen: const ExploreScreen(),
+          ),
+          NavigatorWidget(
+            navigatorKey: _bookMarkKey,
+            screen: const BookMarkScreen(),
+          ),
+          NavigatorWidget(
+            navigatorKey: _settingsKey,
+            screen: const SettingScreen(),
+          )
         ],
       ),
     );

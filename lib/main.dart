@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
         IntroScreen.routeName: (context) => const IntroScreen(),
         // HomeScreen.routeName: (context) => const HomeScreen(),
         SelectTopicScreen.routeName: (context) => const SelectTopicScreen(),
-        MainScreen.routeName: (context) => const MainScreen()
+        MainScreen.routeName: (context) =>  MainScreen()
       },
     );
   }
