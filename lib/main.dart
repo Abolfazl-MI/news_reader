@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_reader/common/screens/main_screen.dart';
 import 'package:news_reader/common/utils/pref_opreator.dart';
 import 'package:news_reader/features/feature_home/presentation/screens/home_screen.dart';
 import 'package:news_reader/features/feature_intro/presentation/bloc/splash_cubit/splash_cubit.dart';
@@ -36,8 +37,9 @@ class MyApp extends StatelessWidget {
               child: const SplashScreen(),
             ),
         IntroScreen.routeName: (context) => const IntroScreen(),
-        HomeScreen.routeName: (context) => const HomeScreen(), 
-        SelectTopicScreen.routeName:(context)=>const SelectTopicScreen()
+        // HomeScreen.routeName: (context) => const HomeScreen(),
+        SelectTopicScreen.routeName: (context) => const SelectTopicScreen(),
+        MainScreen.routeName: (context) => const MainScreen()
       },
     );
   }

@@ -2,6 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:news_reader/common/screens/main_screen.dart';
 import 'package:news_reader/config/strings.dart';
 import 'package:news_reader/features/feature_home/presentation/screens/home_screen.dart';
 import 'package:news_reader/features/feature_intro/presentation/bloc/states/intro_state.dart';
@@ -43,7 +44,7 @@ class _SplashScreenState extends State<SplashScreen> {
           // user is online and he had seen intro before so we navigate to home screen!
           if (state.connectionStatus is ConnectionOn &&
               state.introState == IntroState.shown) {
-            Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+            Navigator.of(context).pushReplacementNamed(MainScreen.routeName);
           }
           // user is online and he hadn't seen the intro
           if (state.connectionStatus is ConnectionOn &&

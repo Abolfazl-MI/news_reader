@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:news_reader/common/screens/main_screen.dart';
 import 'package:news_reader/common/utils/pref_opreator.dart';
 import 'package:news_reader/features/feature_home/presentation/screens/home_screen.dart';
 import 'package:news_reader/features/feature_select_topic/presentation/screens/select_topic_screen.dart';
@@ -151,7 +152,7 @@ class _IntroScreenState extends State<IntroScreen> {
                                   context, SelectTopicScreen.routeName);
                             } else {
                               Navigator.pushReplacementNamed(
-                                  context, HomeScreen.routeName);
+                                  context, MainScreen.routeName);
                             }
                           }
                         },
