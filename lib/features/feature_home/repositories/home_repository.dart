@@ -4,7 +4,8 @@ import 'package:news_reader/common/error_handling/app_exceptions.dart';
 import 'package:news_reader/common/error_handling/check_exceptions.dart';
 import 'package:news_reader/common/resources/data_state.dart';
 import 'package:news_reader/features/feature_home/data/data_source/news_api_provider.dart';
-import 'package:news_reader/features/feature_home/data/models/topHeadLine_model/top_head_line_modle.dart';
+import 'package:news_reader/features/feature_home/data/models/headline_model/headline_model.dart';
+import 'package:news_reader/features/feature_home/data/models/news_model/news_model.dart';
 
 class HomeNewsRepository {
   final NewsApiProvider _newsApiProvider;
@@ -12,12 +13,12 @@ class HomeNewsRepository {
       : _newsApiProvider = newsApiProvider;
 
   ///fetches the headline news of the country
-  Future<DataState<List<NewsModel>>> fetchHeadLineNews() async {
+  Future<DataState<List<HeadLineNewsModel>>> fetchHeadLineNews() async {
     try {
       final Response response = await _newsApiProvider.getTopHeadLines();
-      final rawData = response.data['articles'];
-      List<NewsModel> headLineNews =
-          rawData.map((e) => NewsModel.fromJson(e)).toList();
+      List<dynamic> rawData = response.data['articles'];
+      List<HeadLineNewsModel> headLineNews =
+          rawData.map((e) => HeadLineNewsModel.fromJson(e)).toList();
       return DataSuccess(headLineNews);
     } on AppException catch (e) {
       return await CheckExceptions.getError(e);
@@ -28,7 +29,7 @@ class HomeNewsRepository {
   Future<DataState<List<NewsModel>>> getNewsBaseOnTopic(String topic) async {
     try {
       final Response response = await _newsApiProvider.getNewsByTopic(topic);
-      final rawData = response.data['articles'];
+      List<dynamic> rawData = response.data['articles'];
       List<NewsModel> topicNews =
           rawData.map((e) => NewsModel.fromJson(e)).toList();
       return DataSuccess(topicNews);
