@@ -9,3 +9,5 @@ class HomeLoadTopicNewsEvent extends HomeBlocEvent {
 
   HomeLoadTopicNewsEvent({required this.topic});
 }
+
+class HomeLoadAllFeed extends HomeBlocEvent{}
