@@ -2,12 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_reader/common/bloc/navigation_cubit/navigation_cubit.dart';
+import 'package:news_reader/common/utils/pref_opreator.dart';
 import 'package:news_reader/common/widgets/bottom_navigation_widget.dart';
 import 'package:news_reader/common/widgets/navigator_widget.dart';
 import 'package:news_reader/features/feature_bookmark/presentation/screens/book_mark_screen.dart';
 import 'package:news_reader/features/feature_explore/presentaion/screens/explore_scree.dart';
+import 'package:news_reader/features/feature_home/presentation/bloc/homeBloc/home_bloc_bloc.dart';
 import 'package:news_reader/features/feature_home/presentation/screens/home_screen.dart';
+import 'package:news_reader/features/feature_home/repositories/home_repository.dart';
 import 'package:news_reader/features/feature_settings/presentation/screens/setting_screen.dart';
+import 'package:news_reader/locator.dart';
 
 class BottomNavIndex {
   BottomNavIndex._();
@@ -110,7 +114,12 @@ class _MainScreenState extends State<MainScreen> {
             children: [
               NavigatorWidget(
                 navigatorKey: _homeKey,
-                screen: const HomeScreen(),
+                screen: BlocProvider<HomeBloc>(
+                    create: (context) => HomeBloc(
+                          newsRepository: locator<HomeNewsRepository>(),
+                          prefOperator: locator<PrefOperator>(),
+                        )..add(HomeLoadAllFeed()),
+                    child: const HomeScreen()),
               ),
               NavigatorWidget(
                 navigatorKey: _exploreKey,
