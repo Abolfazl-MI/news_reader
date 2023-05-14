@@ -6,8 +6,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:news_reader/common/widgets/cached_image_widget.dart';
 import 'package:news_reader/common/widgets/custome_shimmerh_loading.dart';
 import 'package:news_reader/features/feature_home/data/models/headline_model/headline_model.dart';
-import 'package:news_reader/features/feature_home/presentation/bloc/homeBloc/home_bloc_bloc.dart';
+import 'package:news_reader/features/feature_home/data/models/news_model/news_model.dart';
+import 'package:news_reader/features/feature_home/presentation/bloc/head_line_cubit/headline_cubit.dart';
 import 'package:news_reader/features/feature_home/presentation/bloc/home_data_status.dart';
+import 'package:news_reader/features/feature_home/presentation/bloc/topic_cubit/topic_news_cubit.dart';
 import 'package:news_reader/gen/assets.gen.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -21,23 +23,11 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
-  List<String> _categories = [
-    'Bussines',
-    'Curency',
-    'Car',
-    'War',
-    'Love',
-  ];
-  late TabController _tabController;
-  late PageController _pageController;
+  late PageController _headLindePageController;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    _tabController = TabController(length: _categories.length, vsync: this);
-    _pageController = PageController(
-        // initialPage:
-        );
+    _headLindePageController = PageController();
   }
 
   @override
@@ -45,14 +35,14 @@ class _HomeScreenState extends State<HomeScreen>
     Size size = MediaQuery.of(context).size;
     return Scaffold(
         // bottomNavigationBar: BottomNavigationWidget(size: size),
-        body: Container(
+        body: SizedBox(
       width: size.width,
       height: size.height,
       // color: Colors.amber,
       child: Column(
         children: [
           FadeIn(
-            duration: Duration(milliseconds: 500),
+            duration: const Duration(milliseconds: 500),
             child: _appBar(size),
           ),
           const SizedBox(
@@ -60,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen>
           ),
           FadeIn(
             child: _searchBar(),
-            duration: Duration(
+            duration: const Duration(
               milliseconds: 550,
             ),
           ),
@@ -71,8 +61,8 @@ class _HomeScreenState extends State<HomeScreen>
             child: Container(
               // color: Colors.red,
               child: SingleChildScrollView(
-                physics: BouncingScrollPhysics(),
-                child: Container(
+                physics: const BouncingScrollPhysics(),
+                child: SizedBox(
                   width: size.width,
                   child: Column(
                     children: [
@@ -82,25 +72,23 @@ class _HomeScreenState extends State<HomeScreen>
                         child: Shimmer(
                           linearGradient: shimmerGradient,
                           child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 20),
-                            child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: SizedBox(
                               // color: Colors.green,
                               width: size.width,
                               child: Column(
                                 children: [
                                   ShimmerLoading(
                                     isLoading: context
-                                                .watch<HomeBloc>()
-                                                .state
-                                                .headlineDataState
-                                            is HomeDataLoadingState
+                                            .watch<HeadLineCubit>()
+                                            .state is HomeDataLoadingState
                                         ? true
                                         : false,
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text(
+                                        const Text(
                                           'Trending',
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold,
@@ -108,7 +96,7 @@ class _HomeScreenState extends State<HomeScreen>
                                         ),
                                         TextButton(
                                           onPressed: () {},
-                                          child: Text(
+                                          child: const Text(
                                             'See all',
                                             style: TextStyle(
                                                 color: Colors.black,
@@ -119,220 +107,72 @@ class _HomeScreenState extends State<HomeScreen>
                                       ],
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 5,
                                   ),
-                                  // ShimmerLoading(
-                                  //   isLoading: context
-                                  //               .watch<HomeBloc>()
-                                  //               .state
-                                  //               .headlineDataState
-                                  //           is HomeDataLoadingState
-                                  //       ? true
-                                  //       : false,
-                                  //   child: Container(
-                                  //       width: size.width,
-                                  //       height: size.height * 0.45,
-                                  //       child: BlocBuilder<HomeBloc,
-                                  //               HomeBlocState>(
-                                  //           builder: (context, state) {
-                                  //         if (state.headlineDataState
-                                  //             is HomeDataLoadedState) {
-                                  //           var news = state.headlineDataState
-                                  //               as HomeDataLoadedState;
-
-                                  //           return PageView.builder(
-                                  //             itemCount: news.data.length,
-                                  //             itemBuilder: ((context, index) {
-                                  //               return _headLineWidget(size,
-                                  //                   headLineNewsModel:
-                                  //                       news.data![index]);
-                                  //             }),
-                                  //           );
-                                  //         }
-                                  //         return Container();
-                                  //       })),
-                                  // ),
-                                  BlocBuilder<HomeBloc, HomeBlocState>(
+                                  BlocBuilder<HeadLineCubit, HomeDataState>(
                                     builder: (context, state) {
-                                      HomeDataState headLineState =
-                                          state.headlineDataState;
                                       return ShimmerLoading(
-                                        isLoading: state.headlineDataState
-                                                is HomeDataLoadingState
+                                        isLoading: state is HomeDataLoadingState
                                             ? true
                                             : false,
-                                        child: Container(
+                                        child: SizedBox(
                                           width: size.width,
                                           height: size.height * 0.45,
                                           child: PageView.builder(
-                                              itemCount: headLineState
+                                              controller:
+                                                  _headLindePageController,
+                                              itemCount: state
                                                       is HomeDataLoadingState
                                                   ? 10
-                                                  : headLineState
-                                                          is HomeDataLoadedState
-                                                      ? headLineState
-                                                          .data.length
+                                                  : state is HomeDataLoadedState
+                                                      ? state.data.length
                                                       : 0,
                                               itemBuilder: (context, index) {
-                                                return _headLineWidget(size,headLineNewsModel: headLineState is HomeDataLoadedState?headLineState.data[index]:null);
+                                                return _headLineWidget(size,
+                                                    headLineNewsModel: state
+                                                            is HomeDataLoadedState
+                                                        ? state.data[index]
+                                                        : null);
                                               }),
                                         ),
                                       );
                                     },
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 5,
                                   ),
-                                  SmoothPageIndicator(
-                                    controller: _pageController,
-                                    count: 10,
-                                    effect: WormEffect(),
-                                  )
+                                  BlocBuilder<HeadLineCubit, HomeDataState>(
+                                      builder: (context, state) {
+                                    return ShimmerLoading(
+                                      isLoading: state is HomeDataLoadingState
+                                          ? true
+                                          : false,
+                                      child: SmoothPageIndicator(
+                                        controller: _headLindePageController,
+                                        count: state is HomeDataLoadingState
+                                            ? 10
+                                            : state is HomeDataLoadedState
+                                                ? state.data.length
+                                                : 0,
+                                        effect: const WormEffect(),
+                                      ),
+                                    );
+                                  })
                                 ],
                               ),
                             ),
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       // latest news
-                      FadeIn(
-                        duration: Duration(milliseconds: 650),
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20),
-                          child: Container(
-                            width: size.width,
-                            child: Column(
-                              children: [
-                                // last text and show more
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      'Latest',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 18),
-                                    ),
-                                    TextButton(
-                                      onPressed: () {},
-                                      child: Text(
-                                        'See all',
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w400),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                // tab bar
-                                SizedBox(
-                                  width: size.width,
-                                  height: size.height * 0.06,
-                                  // color: Colors.amber,
-                                  child: TabBar(
-                                    physics: BouncingScrollPhysics(),
-                                    isScrollable: true,
-                                    controller: _tabController,
-                                    tabs: _categories
-                                        .map((e) => Tab(
-                                              child: Text(
-                                                e,
-                                                style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: 15),
-                                              ),
-                                            ))
-                                        .toList(),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Container(
-                                    width: size.width,
-                                    height: size.height * 0.4,
-                                    // color: Colors.amber,
-                                    child: TabBarView(
-                                      physics: BouncingScrollPhysics(),
-                                      controller: _tabController,
-                                      children: _categories
-                                          .map((e) => ListView.builder(
-                                                physics:
-                                                    ClampingScrollPhysics(),
-                                                padding: EdgeInsets.zero,
-                                                itemCount: 20,
-                                                itemBuilder: ((context, index) {
-                                                  return Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            8.0),
-                                                    child: Row(
-                                                      children: [
-                                                        CachedImage(
-                                                          imageUrl:
-                                                              'https://s.yimg.com/uu/api/res/1.2/LKRH31mzL9wqtcqoQ_lkjw--~B/Zmk9ZmlsbDtoPTYzMDtweW9mZj0wO3c9MTIwMDthcHBpZD15dGFjaHlvbg--/https://media-mbst-pub-ue1.s3.amazonaws.com/creatr-uploaded-images/2023-04/835a5670-e5f4-11ed-9db6-3febf57b7a4a.cf.jpg',
-                                                          width: 100,
-                                                          height: 100,
-                                                          borderRadius: 12,
-                                                        ),
-                                                        SizedBox(
-                                                          width: 10,
-                                                        ),
-                                                        Expanded(
-                                                          child: Column(
-                                                            children: [
-                                                              Text(
-                                                                "Venmo now lets you send crypto to other users for some reason",
-                                                              ),
-                                                              Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .all(
-                                                                        8.0),
-                                                                child: Row(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .spaceBetween,
-                                                                  children: [
-                                                                    Text(
-                                                                        'BBC-NEws'),
-                                                                    Row(
-                                                                      // mainAxisAlignment:
-                                                                      children: [
-                                                                        Icon(CupertinoIcons
-                                                                            .clock),
-                                                                        SizedBox(
-                                                                          width:
-                                                                              5,
-                                                                        ),
-                                                                        Text(
-                                                                            '4h ago'),
-                                                                      ],
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              )
-                                                            ],
-                                                          ),
-                                                        )
-                                                      ],
-                                                    ),
-                                                  );
-                                                }),
-                                              ))
-                                          .toList(),
-                                    ))
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
+                      _topic_tab_selector(size),
+                      const SizedBox(height: 10),
+                      _topic_list_view(size),
+                      const SizedBox(height: 20),
                     ],
                   ),
                 ),
@@ -344,9 +184,154 @@ class _HomeScreenState extends State<HomeScreen>
     ));
   }
 
+  BlocBuilder<TopicCubit, TopicCubitState> _topic_list_view(Size size) {
+    return BlocBuilder<TopicCubit, TopicCubitState>(builder: ((context, state) {
+      if (state.topicDataSate is HomeDataLoadedState ||
+          state.topicDataSate is HomeDataLoadingState) {
+        HomeDataState topicState = state.topicDataSate;
+        return Shimmer(
+          linearGradient: shimmerGradient,
+          child: ShimmerLoading(
+            isLoading:
+                state.topicDataSate is HomeDataLoadingState ? true : false,
+            child: SizedBox(
+              width: size.width,
+              height: size.height * 0.5,
+              // color: Colors.green,
+              child: ListView.builder(
+                physics: const BouncingScrollPhysics(),
+                padding: EdgeInsets.zero,
+                itemCount: topicState is HomeDataLoadedState
+                    ? topicState.data.length
+                    : 20,
+                itemBuilder: ((context, index) {
+                  NewsModel? newsModel = topicState is HomeDataLoadedState
+                      ? topicState.data[index]
+                      : null;
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        CachedImage(
+                          imageUrl: newsModel?.urlToImage ??
+                              'https://s.yimg.com/uu/api/res/1.2/LKRH31mzL9wqtcqoQ_lkjw--~B/Zmk9ZmlsbDtoPTYzMDtweW9mZj0wO3c9MTIwMDthcHBpZD15dGFjaHlvbg--/https://media-mbst-pub-ue1.s3.amazonaws.com/creatr-uploaded-images/2023-04/835a5670-e5f4-11ed-9db6-3febf57b7a4a.cf.jpg',
+                          width: 100,
+                          height: 100,
+                          borderRadius: 12,
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                          child: Column(
+                            children: [
+                              Text(
+                                newsModel?.title ??
+                                    "Venmo now lets you send crypto to other users for some reason",
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(newsModel?.source?.name ?? 'BBC-NEws'),
+                                    Row(
+                                      // mainAxisAlignment:
+                                      children: [
+                                        const Icon(CupertinoIcons.clock),
+                                        const SizedBox(
+                                          width: 5,
+                                        ),
+                                        Text(newsModel?.getTimeDifference() ??
+                                            '4h ago'),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  );
+                }),
+              ),
+            ),
+          ),
+        );
+      }
+      return Container();
+    }));
+  }
+
+  BlocBuilder<TopicCubit, TopicCubitState> _topic_tab_selector(Size size) {
+    return BlocBuilder<TopicCubit, TopicCubitState>(builder: (context, state) {
+      if (state.topicDataSate is HomeDataLoadingState ||
+          state.topicDataSate is HomeDataLoadedState) {
+        return Shimmer(
+          linearGradient: shimmerGradient,
+          child: SizedBox(
+              width: size.width,
+              height: size.height * 0.05,
+              // color: Colors.yellow,
+              child: ShimmerLoading(
+                isLoading:
+                    state.topicDataSate is HomeDataLoadingState ? true : false,
+                child: PageView.builder(
+                  itemCount: context.watch<TopicCubit>().userTopic.length,
+                  padEnds: false,
+                  controller: PageController(viewportFraction: 0.25),
+                  itemBuilder: ((context, index) {
+                    List<String> topics = context.watch<TopicCubit>().userTopic;
+                    return Center(
+                      child: InkWell(
+                        onTap: () {
+                          print(topics[index]);
+                          context.read<TopicCubit>().updateIndex(index);
+                          context
+                              .read<TopicCubit>()
+                              .fetchTopicNews(topics[index]);
+                        },
+                        child: Container(
+                          child: Text(
+                            topics[index],
+                            style: TextStyle(
+                              fontSize: state.selectedIndex == index ? 18 : 15,
+                              fontWeight: state.selectedIndex == index
+                                  ? FontWeight.bold
+                                  : FontWeight.normal,
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  }),
+                ),
+              )),
+        );
+      }
+      if (state.topicDataSate is HomeDataErrorState) {
+        var mineState = state.topicDataSate as HomeDataErrorState;
+        return SizedBox(
+          width: size.width,
+          height: size.height * 0.04,
+          // color: Colors.red,
+          child: const Center(
+              // child: Text(mineState.error),
+              ),
+        );
+      }
+      return Container();
+    });
+  }
+
+/* 
+ */
   _headLineWidget(Size size, {HeadLineNewsModel? headLineNewsModel}) {
     return Container(
-      padding: EdgeInsets.all(5),
+      padding: const EdgeInsets.all(5),
       // color: Colors.green,
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -357,15 +342,15 @@ class _HomeScreenState extends State<HomeScreen>
             width: size.width,
             height: size.height * 0.25,
           ),
-          SizedBox(
+          const SizedBox(
             height: 15,
           ),
           Text(
             headLineNewsModel?.title ??
                 "Venmo now lets you send crypto to other users for some reason",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
           ),
-          SizedBox(
+          const SizedBox(
             height: 8,
           ),
           Padding(
@@ -373,15 +358,15 @@ class _HomeScreenState extends State<HomeScreen>
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('BBC News'),
-                SizedBox(
+                const Text('BBC News'),
+                const SizedBox(
                   width: 20,
                 ),
                 Row(
                   // mainAxisAlignment:
                   children: [
-                    Icon(CupertinoIcons.clock),
-                    SizedBox(
+                    const Icon(CupertinoIcons.clock),
+                    const SizedBox(
                       width: 5,
                     ),
                     Text(headLineNewsModel?.getTimeDifference() ?? '4h ago'),
@@ -400,19 +385,19 @@ class _HomeScreenState extends State<HomeScreen>
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: TextFormField(
         decoration: InputDecoration(
-          contentPadding: EdgeInsets.symmetric(horizontal: 10),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 10),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
           ),
           suffixIcon: IconButton(
-            icon: Icon(
+            icon: const Icon(
               CupertinoIcons.slider_horizontal_3,
             ),
             onPressed: () {},
           ),
           prefixIcon: IconButton(
             onPressed: () {},
-            icon: Icon(
+            icon: const Icon(
               CupertinoIcons.search,
             ),
           ),
@@ -424,7 +409,7 @@ class _HomeScreenState extends State<HomeScreen>
   _appBar(Size size) {
     return Container(
       width: size.width,
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       // height: size.height * 0.09,
       // color: Colors.white,
       child: Row(
@@ -436,7 +421,7 @@ class _HomeScreenState extends State<HomeScreen>
           ),
           IconButton(
             onPressed: () {},
-            icon: Icon(
+            icon: const Icon(
               CupertinoIcons.bell,
             ),
           )

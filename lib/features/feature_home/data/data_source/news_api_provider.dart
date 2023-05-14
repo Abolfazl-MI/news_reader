@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
-import 'package:news_reader/common/utils/dio_monitoring.dart';
 import 'package:news_reader/config/api_constants.dart';
 import 'package:news_reader/common/error_handling/check_exceptions.dart';
 

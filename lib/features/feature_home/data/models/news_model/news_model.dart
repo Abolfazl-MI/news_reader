@@ -29,7 +29,7 @@ class NewsModel extends Equatable {
   final String? title;
   final String? description;
   final String? urlToImage;
-  final String? publishedAt;
+  final DateTime? publishedAt;
   final String? content;
   @JsonKey(name: 'source')
   final NewsModelSourceModel? source;
@@ -60,4 +60,11 @@ class NewsModel extends Equatable {
         content,
         source,
       ];
+  String getTimeDifference() {
+    int difference = DateTime.now().difference(publishedAt!).inHours;
+    if (difference > 24) {
+      return "${difference % 24} days ago";
+    }
+    return "${difference}h ago";
+  }
 }

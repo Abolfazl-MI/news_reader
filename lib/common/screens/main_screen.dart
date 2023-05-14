@@ -7,7 +7,9 @@ import 'package:news_reader/common/widgets/bottom_navigation_widget.dart';
 import 'package:news_reader/common/widgets/navigator_widget.dart';
 import 'package:news_reader/features/feature_bookmark/presentation/screens/book_mark_screen.dart';
 import 'package:news_reader/features/feature_explore/presentaion/screens/explore_scree.dart';
+import 'package:news_reader/features/feature_home/presentation/bloc/head_line_cubit/headline_cubit.dart';
 import 'package:news_reader/features/feature_home/presentation/bloc/homeBloc/home_bloc_bloc.dart';
+import 'package:news_reader/features/feature_home/presentation/bloc/topic_cubit/topic_news_cubit.dart';
 import 'package:news_reader/features/feature_home/presentation/screens/home_screen.dart';
 import 'package:news_reader/features/feature_home/repositories/home_repository.dart';
 import 'package:news_reader/features/feature_settings/presentation/screens/setting_screen.dart';
@@ -114,12 +116,22 @@ class _MainScreenState extends State<MainScreen> {
             children: [
               NavigatorWidget(
                 navigatorKey: _homeKey,
-                screen: BlocProvider<HomeBloc>(
-                    create: (context) => HomeBloc(
-                          newsRepository: locator<HomeNewsRepository>(),
-                          prefOperator: locator<PrefOperator>(),
-                        )..add(HomeLoadAllFeed()),
-                    child: const HomeScreen()),
+                screen: MultiBlocProvider(
+                  providers: [
+                    BlocProvider(
+                      create: (context) => HeadLineCubit(
+                        homeNewsRepository: locator<HomeNewsRepository>(),
+                      )..fetchHeadLineNews(),
+                    ), 
+                    BlocProvider(
+                      create: (context) => TopicCubit(
+                        homeNewsRepository: locator<HomeNewsRepository>(),
+                        prefOperator: locator<PrefOperator>()
+                      )..fetchInitialTopic(),
+                    )
+                  ],
+                  child: HomeScreen(),
+                ),
               ),
               NavigatorWidget(
                 navigatorKey: _exploreKey,

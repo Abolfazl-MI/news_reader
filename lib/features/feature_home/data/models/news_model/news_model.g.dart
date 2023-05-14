@@ -23,7 +23,9 @@ NewsModel _$NewsModelFromJson(Map<String, dynamic> json) => NewsModel(
       title: json['title'] as String?,
       description: json['description'] as String?,
       urlToImage: json['urlToImage'] as String?,
-      publishedAt: json['publishedAt'] as String?,
+      publishedAt: json['publishedAt'] == null
+          ? null
+          : DateTime.parse(json['publishedAt'] as String),
       content: json['content'] as String?,
       source: json['source'] == null
           ? null
@@ -36,7 +38,7 @@ Map<String, dynamic> _$NewsModelToJson(NewsModel instance) => <String, dynamic>{
       'title': instance.title,
       'description': instance.description,
       'urlToImage': instance.urlToImage,
-      'publishedAt': instance.publishedAt,
+      'publishedAt': instance.publishedAt?.toIso8601String(),
       'content': instance.content,
       'source': instance.source,
     };
